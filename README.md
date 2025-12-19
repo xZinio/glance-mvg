@@ -88,3 +88,4 @@ Add the following block to your dashboard configuration file (e.g., `glance.yml`
     </ul>
 ```
 ## LICENSE
+[GNU GPL v3](https://github.com/xZinio/glance-mvg/blob/main/LICENSE)
