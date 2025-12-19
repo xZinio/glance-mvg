@@ -4,21 +4,18 @@ import time
 
 app = Flask(__name__)
 
-# Color Definitions
 COLORS = {
-    'UBAHN': '#006cb3',      # Blue for U6
-    'BUS_GREEN': '#005f50',  # Green for X35, X36, and standard buses
-    'BUS_ORANGE': '#ef7c00', # Orange for Line 50
+    'UBAHN': '#006cb3',      
+    'BUS_GREEN': '#005f50',  
+    'BUS_ORANGE': '#ef7c00', 
     'SBAHN': '#4F782D',
     'TRAM': '#D82020'
 }
 
 def get_station_id(station_name):
-    # Only hardcode Alte Heide (U6 only)
     known = {'Alte Heide': 'de:09162:80'}
     if station_name in known: return known[station_name]
 
-    # Dynamic search for Studentenstadt to get the main hub ID (Bus + U-Bahn)
     try:
         url = "https://www.mvg.de/api/bgw-pt/v3/locations"
         r = requests.get(url, params={'query': station_name}, verify=False, timeout=5)
@@ -32,11 +29,9 @@ def get_station_id(station_name):
 def departures():
     station_name = request.args.get('station', 'Studentenstadt')
 
-    # Configuration
     if station_name == 'Alte Heide':
         allowed_lines = ['U6']
     else:
-        # Note: Ensure spaces match exactly what MVG returns
         allowed_lines = ['U6', 'X35', 'X36', '50']
 
     station_id = get_station_id(station_name)
@@ -59,16 +54,13 @@ def departures():
         for dep in data:
             label = dep.get('label')
 
-            # Filter unwanted lines
             if label not in allowed_lines: continue
 
-            # Filter past departures
             d_time = dep.get('realtimeDepartureTime', dep.get('plannedDepartureTime'))
             if d_time < current_time_ts: continue
 
             minutes = int((d_time - current_time_ts) / 60000)
 
-            # --- COLOR LOGIC ---
             if label == '50':
                 color = COLORS['BUS_ORANGE']
             elif label.startswith('U'):
@@ -76,7 +68,6 @@ def departures():
             elif label.startswith('X'):
                 color = COLORS['BUS_GREEN']
             else:
-                # Fallback for any other bus
                 color = COLORS['BUS_GREEN']
 
             results.append({
