@@ -1,0 +1,29 @@
+        - type: custom-api
+          title: Studentenstadt
+          url: http://mvg-api:5000/departures?station=Studentenstadt
+          method: GET
+          refresh-interval: 60s
+          template: |
+            <div class="flex flex-column gap-5">
+              {{ range .JSON.Array "" }}
+              <div class="flex justify-between items-center" style="padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                
+                <div class="flex items-center gap-5" style="min-width: 0;">
+                  <div style="width: 20px; height: 4px; border-radius: 2px; margin-right: 10px; background-color: {{ .String "color" }}; flex-shrink: 0;"></div>
+                  
+                  <span class="size-h4" style="font-weight: bold; min-width: 35px;">{{ .String "line" }}</span>
+                  <span class="size-p3 color-secondary" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ .String "dest" }}</span>
+                </div>
+
+                <div class="text-right" style="flex-shrink: 0; margin-left: 10px;">
+                  {{ $min := .Int "minutes" }}
+                  <span class="size-h5 {{ if le $min 5 }}color-positive{{ else }}color-primary{{ end }}">
+                    {{ .String "timeStr" }}
+                  </span>
+                </div>
+                
+              </div>
+              {{ else }}
+              <div class="size-p3 color-secondary">No departures found.</div>
+              {{ end }}
+            </div>
