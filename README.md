@@ -1,4 +1,4 @@
-# 🚇 MVG Departure Widget
+# 🚇 MVG Departure Widget for [Glance](https://github.com/glanceapp/glance)
 
 ![MVG](https://img.shields.io/badge/MVG-München-blue?style=for-the-badge&logo=metro) ![Status](https://img.shields.io/badge/Status-Live-green?style=for-the-badge)
 
