@@ -30,8 +30,6 @@ The easiest way to find a Station ID is to query the MVG "Locations" endpoint di
 
 This setup uses a small **Python Backend** (intermediary) to fetch data from MVG. This prevents CORS issues and allows for better data formatting before it reaches your dashboard.
 
----
-
 ### 1. Project Structure
 Create a folder named `mvg-widget` and set up the following structure:
 
